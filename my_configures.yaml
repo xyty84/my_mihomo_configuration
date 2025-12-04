@@ -1,7 +1,7 @@
 # url 里填写自己的订阅,名称不能重复
 proxy-providers:
   provider1:
-    url: "https://107.172.252.249/api/v1/gzcloud/subscribe?token=44b33a83050203c6125952d9cb8bb44c"
+    url: ""
     type: http
     interval: 86400
     health-check:
@@ -19,10 +19,10 @@ proxy-providers:
       up: "10 Mbps"
       skip-cert-verify: true
       ip-version: ipv4-prefer
-      additional-prefix: "[狗子云]"
+      additional-prefix: "[机场01]"
 
   provider2:
-    url: "https://liangxin.xyz/api/v1/liangxin?OwO=2401e9c9db052cee7c52983456d099a3"
+    url: ""
     type: http
     interval: 86400
     health-check:
@@ -40,7 +40,7 @@ proxy-providers:
       up: "10 Mbps"
       skip-cert-verify: true
       ip-version: ipv4-prefer
-      additional-prefix: "[良心云]"
+      additional-prefix: "[机场02]"
 
 proxies:
   - name: "直连"
