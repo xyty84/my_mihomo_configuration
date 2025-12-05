@@ -20,7 +20,7 @@ proxy-providers:
       skip-cert-verify: true
       ip-version: ipv4-prefer
       # 在additional-prefix里填写机场名称或者为空
-      additional-prefix: "[机场_0]"
+      additional-prefix: ""
 
   provider2:
     # 把复制的第二个订阅地址粘贴到 url 里,如果没有就空着
