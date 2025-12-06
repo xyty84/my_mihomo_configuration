@@ -49,7 +49,7 @@ proxies:
   - name: 全局直连
     type: direct
     udp: true
-  - name: 拒绝连接
+  - name: 全局拦截
     type: reject
     udp: true
 
@@ -308,7 +308,7 @@ proxy-groups:
     interval: 300
     tolerance: 20
     lazy: true
-    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Auto.png"
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"
 
   - name: 故障转移
     type: fallback
@@ -331,22 +331,22 @@ proxy-groups:
 
   - name: 秋风广告
     type: select
-    proxies: [拒绝连接,全局直连]
+    proxies: [全局拦截,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Static.png"
 
   - name: 广告拦截
     type: select
-    proxies: [拒绝连接,全局直连]
+    proxies: [全局拦截,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Advertising.png"
 
   - name: 大陆直连
     type: select
-    proxies: [全局直连,拒绝连接]
+    proxies: [全局直连,全局拦截]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
 
   - name: 漏网之鱼
     type: select
-    proxies: [节点选择,全局直连]
+    proxies: [节点选择,延迟优选,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"
 
   #分隔,下面是地区分组
