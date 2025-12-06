@@ -72,6 +72,7 @@ keep-alive-interval: 15
 keep-alive-idle: 15
 disable-keep-alive: false
 tcp-concurrent: true
+
 external-controller: 127.0.0.1:9090
 external-controller-cors:
   allow-origins:
@@ -81,23 +82,26 @@ external-ui: ui
 external-ui-name: xd
 secret: ""
 external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+
 find-process-mode: always
 global-client-fingerprint: chrome
 global-ua: clash.meta
 routing-mark: 0
+
 profile:
   store-selected: true
   store-fake-ip: true
 
-geodata-mode: false
+geodata-mode: true
 geodata-loader: memconservative
 geo-auto-update: false
 geo-update-interval: 24
 geox-url:
-  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat"
+  geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
   geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
   mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
   asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
+
 etag-support: true
 
 sniffer:
@@ -289,14 +293,14 @@ experimental:
   ignore-resolve-fail: true
 
 proxy-groups:
-  - name: 全球代理
+  - name: 节点选择
     type: select
-    proxies: [自动选择,故障转移]
+    proxies: [延迟优选,故障转移]
     include-all: true
     exclude-type: direct|reject
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Proxy.png"
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"
 
-  - name: 自动选择
+  - name: 延迟优选
     type: url-test
     include-all: true
     url: https://www.gstatic.com/generate_204
@@ -304,7 +308,7 @@ proxy-groups:
     interval: 300
     tolerance: 20
     lazy: true
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Auto.png"
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Auto.png"
 
   - name: 故障转移
     type: fallback
@@ -313,36 +317,36 @@ proxy-groups:
     exclude-type: direct|reject
     interval: 300
     lazy: true
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Back.png"
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Roundrobin.png"
 
   - name: Steam
     type: select
-    proxies: [全球代理,全局直连]
+    proxies: [节点选择,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
 
   - name: 下载程序
     type: select
-    proxies: [全局直连,全球代理]
+    proxies: [全局直连,节点选择]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Download.png"
 
   - name: 秋风广告
     type: select
     proxies: [拒绝连接,全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Static.png"
 
   - name: 广告拦截
     type: select
     proxies: [拒绝连接,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Advertising.png"
 
-  - name: 国内直连
+  - name: 大陆直连
     type: select
     proxies: [全局直连,拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
 
   - name: 漏网之鱼
     type: select
-    proxies: [全球代理,全局直连]
+    proxies: [节点选择,全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"
 
   #分隔,下面是地区分组
@@ -386,32 +390,29 @@ proxy-groups:
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"
 
-  - name: 其它地区
+  - name: GLOBAL
     type: select
-    include-all: true
-    exclude-type: direct|reject
-    filter: "(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*"
-    #hidden: true
+    proxies: [节点选择,延迟优选,大陆直连,漏网之鱼]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"
 
 rules:
-  - RULE-SET,LocalAreaNetwork,国内直连
-  - RULE-SET,UnBan,国内直连
+  - RULE-SET,LocalAreaNetwork,大陆直连
+  - RULE-SET,UnBan,大陆直连
   - RULE-SET,AWAvenueAdsRule,秋风广告
   - RULE-SET,BanAD,广告拦截
   - RULE-SET,BanProgramAD,广告拦截
-  - RULE-SET,SteamCN,国内直连
+  - RULE-SET,SteamCN,大陆直连
   - RULE-SET,SteamRegionCheck,下载程序
   - RULE-SET,Steam,Steam
-  - RULE-SET,ProxyLite,全球代理
-  - RULE-SET,ChinaIp,国内直连
-  - RULE-SET,ChinaIpV6,国内直连
-  - RULE-SET,ChinaDomain,国内直连
-  - RULE-SET,ChinaCompanyIp,国内直连
+  - RULE-SET,ProxyLite,节点选择
+  - RULE-SET,ChinaIp,大陆直连
+  - RULE-SET,ChinaIpV6,大陆直连
+  - RULE-SET,ChinaDomain,大陆直连
+  - RULE-SET,ChinaCompanyIp,大陆直连
   - RULE-SET,Download,下载程序
   - RULE-SET,GameDownload,下载程序
-  - GEOIP,LAN,国内直连
-  - GEOIP,CN,国内直连
+  - GEOIP,LAN,大陆直连
+  - GEOIP,CN,大陆直连
   - MATCH,漏网之鱼
 
 rule-providers:
@@ -419,104 +420,104 @@ rule-providers:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/Ruleset/Steam.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   SteamCN:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/Ruleset/SteamCN.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   SteamRegionCheck:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/Ruleset/SteamRegionCheck.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   Download:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/Ruleset/Download.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   GameDownload:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/Ruleset/GameDownload.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   ChinaCompanyIp:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/ChinaCompanyIp.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   ChinaDomain:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/ChinaDomain.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   ChinaIp:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/ChinaIp.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   ChinaIpV6:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/ChinaIpV6.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   LocalAreaNetwork:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/LocalAreaNetwork.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   UnBan:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/UnBan.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   ProxyLite:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/ProxyLite.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   AWAvenueAdsRule:
     type: http
     url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.yaml"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: yaml
   BanAD:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/BanAD.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
   BanProgramAD:
     type: http
     url: "https://github.com/ACL4SSR/ACL4SSR/raw/refs/heads/master/Clash/BanProgramAD.list"
     interval: 86400
-    proxy: 自动选择
+    proxy: 延迟优选
     behavior: classical
     format: text
