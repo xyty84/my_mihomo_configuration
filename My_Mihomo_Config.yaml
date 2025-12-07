@@ -473,6 +473,7 @@ rules:
   - RULE-SET,Pixiv,Pixiv
   - RULE-SET,Twitter,Twitter
   - RULE-SET,YouTube,YouTube
+  - RULE-SET,Telegram,Telegram
   - RULE-SET,Hijacking,GFW
   - RULE-SET,ProxyLite,GFW
 
@@ -629,6 +630,14 @@ rule-providers:
   HeyBox:
     type: http
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/xiaoheihe.yaml"
+    interval: 86400
+    proxy: ⚡ 延迟优选
+    behavior: domain
+    format: yaml
+  
+  Telegram:
+    type: http
+    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Telegram/Telegram_No_Resolve.yaml"
     interval: 86400
     proxy: ⚡ 延迟优选
     behavior: domain
