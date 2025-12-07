@@ -351,41 +351,51 @@ proxy-groups:
 
   #分隔,下面是地区分组
   - name: 香港
-    type: select
+    type: url-test
     include-all: true
-    exclude-type: direct
+    url: https://www.gstatic.com/generate_204
+    exclude-type: direct|reject
+    interval: 300
     filter: "(?i)港|hk|hongkong|hong kong"
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png"
 
   - name: 台湾
-    type: select
+    type: url-test
     include-all: true
-    exclude-type: direct
+    url: https://www.gstatic.com/generate_204
+    exclude-type: direct|reject
+    interval: 300
     filter: "(?i)台|tw|taiwan"
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png"
 
   - name: 日本
-    type: select
+    type: url-test
     include-all: true
-    exclude-type: direct
+    url: https://www.gstatic.com/generate_204
+    exclude-type: direct|reject
+    interval: 300
     filter: "(?i)日|jp|japan"
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png"
 
   - name: 美国
-    type: select
+    type: url-test
     include-all: true
-    exclude-type: direct
+    url: https://www.gstatic.com/generate_204
+    exclude-type: direct|reject
+    interval: 300
     filter: "(?i)美|us|unitedstates|united states"
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"
 
   - name: 新加坡
-    type: select
+    type: url-test
     include-all: true
-    exclude-type: direct
+    url: https://www.gstatic.com/generate_204
+    exclude-type: direct|reject
+    interval: 300
     filter: "(?i)(新|sg|singapore)"
     #hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"
