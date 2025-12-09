@@ -2,7 +2,7 @@
 proxy-providers:
   Airport1:
 #把复制的第一个订阅地址粘贴到 url 里
-    url: "https://liangxin.xyz/api/v1/liangxin?OwO=2401e9c9db052cee7c52983456d099a3"
+    url: ""
     type: http
     interval: 86400
     health-check:
@@ -34,7 +34,7 @@ proxy-providers:
       up: "10 Mbps"
       tfo: true
       skip-cert-verify: true
-      additional-prefix: ""
+      additional-prefix: "[02]"
 
 port: 7891
 socks-port: 7892
