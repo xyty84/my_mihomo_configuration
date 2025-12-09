@@ -384,10 +384,10 @@ rules:
   - RULE-SET,youtube_domain,YouTube
   - RULE-SET,geolocation-!cn,GFW
 
-  - RULE-SET,bilibili_ip,哔哩哔哩
-  - RULE-SET,google_ip,Google
-  - RULE-SET,telegram_ip,Telegram
-  - RULE-SET,twitter_ip,Twitter
+  - RULE-SET,bilibili_ip,哔哩哔哩,no-resolve
+  - RULE-SET,google_ip,Google,no-resolve
+  - RULE-SET,telegram_ip,Telegram,no-resolve
+  - RULE-SET,twitter_ip,Twitter,no-resolve
   - RULE-SET,cn_domain,大陆直连
   - RULE-SET,cn_ip,大陆直连
   - MATCH,漏网之鱼
