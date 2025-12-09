@@ -1,29 +1,24 @@
-#注: 添加#号代表注释词条,用于理解功能,部分#号是用来暂时屏蔽某些功能,可删(具体情况具体分析)
+#注: 添加#号代表注释词条,仅用于理解功能,部分#号是用来暂时屏蔽某些功能,可删(具体情况具体分析)
 proxy-providers:
-  provider1:
+  Airport1:
 #把复制的第一个订阅地址粘贴到 url 里
-    url: ""
+    url: "https://liangxin.xyz/api/v1/liangxin?OwO=2401e9c9db052cee7c52983456d099a3"
     type: http
     interval: 86400
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
-      timeout: 5000
-      lazy: true
+    proxy: DIRECT
     override:
-      tfo: true
-      mptcp: false
       udp: true
-      udp-over-tcp: false
-      down: "100 Mbps"
+      down: "50 Mbps"
       up: "10 Mbps"
+      tfo: true
       skip-cert-verify: true
-      ip-version: ipv6-prefer
-#在additional-prefix里后面填写机场名称或者为空
-      additional-prefix: ""
+      additional-prefix: "[01]"
 
-  provider2:
+  Airport2:
 #把复制的第二个订阅地址粘贴到 url 里,如果没有就空着
     url: ""
     type: http
@@ -32,18 +27,13 @@ proxy-providers:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
-      timeout: 5000
-      lazy: true
+    proxy: DIRECT
     override:
-      tfo: true
-      mptcp: false
       udp: true
-      udp-over-tcp: false
-      down: "100 Mbps"
+      down: "50 Mbps"
       up: "10 Mbps"
+      tfo: true
       skip-cert-verify: true
-      ip-version: ipv6-prefer
-#在additional-prefix里填写机场名称或者为空(注:不能与第一个机场重名)
       additional-prefix: ""
 
 port: 7891
@@ -51,18 +41,12 @@ socks-port: 7892
 mixed-port: 7890
 ipv6: true
 allow-lan: true
-lan-allowed-ips:
-  - 0.0.0.0/0
-  - ::/0
-skip-auth-prefixes:
-  - 127.0.0.1/8
-  - ::1/128
 bind-address: "*"
 mode: rule
-log-level: error
+log-level: warning
 unified-delay: true
 keep-alive-interval: 15
-keep-alive-idle: 15
+keep-alive-idle: 300
 disable-keep-alive: false
 tcp-concurrent: true
 
@@ -76,7 +60,7 @@ external-ui-name: xd
 secret: ""
 external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
-find-process-mode: always
+find-process-mode: strict
 global-client-fingerprint: chrome
 global-ua: clash.meta
 
@@ -84,42 +68,26 @@ profile:
   store-selected: true
   store-fake-ip: true
 
-#分隔  此为GeoData功能,如有需要就把以下的所有#号删掉即可
-#geodata-mode: false
-#geodata-loader: memconservative
-#geo-auto-update: false
-#geo-update-interval: 24
-#geox-url:
-  #geoip: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
-  #geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
-  #mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
-  #asn: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
-etag-support: true
-
-sniffer:
-  enable: true
-  force-dns-mapping: true
-  parse-pure-ip: true
-  override-destination: true
-  sniff:
-    HTTP:
-      ports: [80, 8080-8880]
-      override-destination: true
-    TLS:
-      ports: [443, 8443]
-      override-destination: null
-    QUIC:
-      ports: [443, 8443]
-      override-destination: null
-  force-domain:
-    - +.v2ex.com
-  skip-domain:
-    - "Mijia Cloud"
-    - "+.push.apple.com"
-  skip-src-address:
-    - 192.168.0.3/32
-  skip-dst-address:
-    - 192.168.0.3/32
+#sniffer:
+  #enable: false
+  #force-dns-mapping: true
+  #parse-pure-ip: true
+  #override-destination: true
+  #sniff:
+   # HTTP:
+      #ports: [80, 8080-8880]
+      #override-destination: true
+    #TLS:
+      #ports: [443, 8443]
+    #QUIC:
+      #ports: [443, 8443]
+  #force-domain:
+   # - +.v2ex.com
+  #skip-domain:
+    #- "Mijia Cloud"
+    #- "+.push.apple.com"
+    #- "+.apple.com"
+    #- "+.dlg.io.mi.com"
 
 tun:
   enable: true
@@ -130,158 +98,46 @@ tun:
   device: mihomo
   mtu: 4000
   strict-route: true
-  gso: true
-  gso-max-size: 65536
-  udp-timeout: 300
-#分隔  独立于端点的NAT,没事别开
-  endpoint-independent-nat: false
-
   auto-route: true
-  iproute2-table-index: 2022
-  iproute2-rule-index: 9000
   auto-redirect: true
   auto-detect-interface: true
 
 dns:
   enable: true
   cache-algorithm: arc
-  prefer-h3: true
-  use-hosts: true
-  use-system-hosts: true
 #分隔  连接遵守路由规则,不建议和"prefer-h3"一起使用
-  respect-rules: false
-
+  respect-rules: true
   ipv6: true
   ipv6-timeout: 300
-  listen: 0.0.0.0:53
+  listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
-  fake-ip-range: 198.18.0.1/16
-  fake-ip-range6: fdfe:dcba:9876::1/64
+  fake-ip-range: 28.0.0.1/8
   fake-ip-filter:
-    - "*"
-    - "+.lan"
-    - "+.local"
-    - "+.market.xiaomi.com"
-    - time.*.com
-    - time.*.gov
-    - time.*.edu.cn
-    - time.*.apple.com
-    - time-ios.apple.com
-    - time1.*.com
-    - time2.*.com
-    - time3.*.com
-    - time4.*.com
-    - time5.*.com
-    - time6.*.com
-    - time7.*.com
-    - ntp.*.com
-    - ntp1.*.com
-    - ntp2.*.com
-    - ntp3.*.com
-    - ntp4.*.com
-    - ntp5.*.com
-    - ntp6.*.com
-    - ntp7.*.com
-    - '*.time.edu.cn'
-    - '*.ntp.org.cn'
-    - '*.pool.ntp.org'
-    - +.services.googleapis.cn
-    - +.push.apple.com
-    - time1.cloud.tencent.com
-    - localhost.ptlogin2.qq.com
-    - +.stun.*.*
-    - +.stun.*.*.*
-    - +.stun.*.*.*.*
-    - +.stun.*.*.*.*.*
-    - lens.l.google.com
-    - '*.n.n.srv.nintendo.net'
-    - +.stun.playstation.net
-    - xbox.*.*.microsoft.com
-    - '*.*.xboxlive.com'
-    - '*.msftncsi.com'
-    - '*.msftconnecttest.com'
-    - '*.mcdn.bilivideo.cn'
-    - +.bilibili.com
-    - +.bilicdn.com
-    - +.bilivideo.com
-    - WORKGROUP
-  nameserver-policy: null
+    - rule-set:private_domain
+  nameserver-policy:
+    'rule-set:private_domain,cn_domain':
+      - 223.5.5.5
+      - 119.29.29.29
+    'rule-set:geolocation-!cn':
+      - tls://8.8.4.4#节点选择
+      - tls://1.1.1.1#节点选择
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - 8.8.8.8
-    - 8.8.4.4
-    - 1.0.0.1
-    - 1.1.1.1
-    - tls://223.5.5.5
-    - tls://223.6.6.6
-    - system
+  direct-nameserver:
+    - 223.5.5.5
+  default-nameserver-follow-policy: false
+  proxy-server-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
   nameserver:
     - 223.5.5.5
-    - 180.76.76.76
     - 119.29.29.29
-    - 117.50.11.11
-    - 117.50.10.10
-    - 114.114.114.114
-    - 8.8.8.8
-    - 8.8.4.4
-    - 1.0.0.1
-    - 1.1.1.1
-    - tls://223.5.5.5:853
-    - tls://8.8.8.8
-    - tls://8.8.4.4
-    - tls://1.0.0.1
-    - tls://1.1.1.1
-    - quic://dns.adguard.com:784
-    - https://doh.pub/dns-query
-    - https://223.5.5.5/dns-query
-    - https://dns.alidns.com/dns-query
-    - https://doh.360.cn/dns-query
-    - https://mozilla.cloudflare-dns.com/dns-query
-    - system
-  fallback:
-    - 8.8.8.8
-    - 8.8.4.4
-    - 1.1.1.1
-    - tls://8.8.4.4:853
-    - tls://1.1.1.1
-    - tls://dns.rubyfish.cn:853
-    - tls://1.0.0.1:853
-    - tls://dns.google:853
-    - https://1.0.0.1/dns-query
-    - https://dns.rubyfish.cn/dns-query
-    - https://cloudflare-dns.com/dns-query
-    - https://dns.google/dns-query
-  direct-nameserver-follow-policy: false
-  fallback-filter:
-    geoip: true
-    geoip-code: CN
-    ipcidr:
-      - 240.0.0.0/4
-    domain:
-      - '+.google.com'
-      - '+.facebook.com'
-      - '+.youtube.com'
-    geosite:
-      - gfw
-
-ntp:
-  enable: false
-  write-to-system: true
-  server: time.apple.com
-  port: 123
-  interval: 30
-
-experimental:
-  quic-go-disable-gso: false
-  quic-go-disable-ecn: true
-  dialer-ip4p-convert: false
-  ignore-resolve-fail: true
 
 proxy-groups:
   - name: 节点选择
     type: select
-    proxies: [⚡ 延迟优选]
+    proxies: [⚡ 延迟优选,🟢 全局直连,🔴 拒绝连接]
     include-all: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"
 
@@ -297,77 +153,87 @@ proxy-groups:
 
   - name: 下载程序
     type: select
-    proxies: [✔️ 全局直连,🚀 节点选择]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Download.png"
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"
 
   - name: 广告拦截
     type: select
-    proxies: [❌ 拒绝连接,❄️ 静默拒绝,✔️ 全局直连]
+    proxies: [🔴 拒绝连接,❄️ 静默拒绝,🟢 全局直连]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"
 
-  - name: BiliBili
+  - name: 哔哩哔哩
     type: select
-    proxies: [✔️ 全局直连,🚀 节点选择]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Bili.png"
 
   - name: 小黑盒
     type: select
-    proxies: [✔️ 全局直连,🚀 节点选择]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"
 
   - name: Telegram
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Telegram.png"
 
   - name: GitHub
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
   - name: Pixiv
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Wallless.png"
-
-  - name: Google
-    type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"
-
-  - name: EhViewer
-    type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Xingmeng.png"
-
-  - name: Twitter
-    type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Twitter.png"
-
-  - name: YouTube
-    type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/YouTube.png"
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Pixiv.png?raw=true"
 
   - name: Steam
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
+
+  - name: EhViewer
+    type: select
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rainbow.png"
+
+  - name: 禁漫天堂
+    type: select
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Flower.png"
+
+  - name: Twitter
+    type: select
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Twitter.png"
+
+  - name: Google
+    type: select
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"
+
+  - name: Microsoft
+    type: select
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Microsoft.png?raw=true"
+
+  - name: YouTube
+    type: select
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/YouTube.png"
 
   - name: 大陆直连
     type: select
-    proxies: [✔️ 全局直连,🚀 节点选择]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China.png"
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
 
   - name: GFW
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"
 
   - name: 漏网之鱼
     type: select
-    proxies: [🚀 节点选择,✔️ 全局直连]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"
 
 #分隔  以下是地区分组,默认为隐藏,想要把以下地区在APP内可视化,把"hidden: true"改为"hidden: false"就行了
@@ -421,13 +287,13 @@ proxy-groups:
     hidden: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"
 
-#分隔  以下是内置策略组,不要乱动
-  - name: ✔️ 全局直连
+#分隔  以下是隐藏策略组,不要乱动
+  - name: 🟢 全局直连
     type: select
     proxies: [DIRECT]
     hidden: true
 
-  - name: ❌ 拒绝连接
+  - name: 🔴 拒绝连接
     type: select
     proxies: [REJECT]
     hidden: true
@@ -447,198 +313,71 @@ proxy-groups:
     proxies: [延迟优选]
     hidden: true
 
-  - name: GLOBAL
-    type: select
-    proxies: [🚀 节点选择,⚡ 延迟优选,✔️ 全局直连]
-    hidden: false
-    icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"
-
 #分隔
 #第一列为rule-set(引用规则集),需要配合后面的rule-providers
 #第二列为rule-providers的名称
 #第三列为前面代理组的名称
 rules:
-  - RULE-SET,Lan,大陆直连
-  - RULE-SET,Direct,大陆直连
-  - RULE-SET,Category-Ads-All,广告拦截
-  - RULE-SET,BiliBili,BiliBili
-  - RULE-SET,HeyBox,小黑盒
-  - RULE-SET,Download,下载程序
-  - RULE-SET,GameDownloadCN,下载程序
-  - RULE-SET,SteamCN,大陆直连
-  - RULE-SET,Steam,Steam
-  - RULE-SET,EHGallery,EhViewer
-  - RULE-SET,GitHub,GitHub
-  - RULE-SET,Google,Google
-  - RULE-SET,Pixiv,Pixiv
-  - RULE-SET,Twitter,Twitter
-  - RULE-SET,YouTube,YouTube
-  - RULE-SET,Telegram,Telegram
-  - RULE-SET,Hijacking,GFW
-  - RULE-SET,ProxyLite,GFW
+  - RULE-SET,private_ip,大陆直连
+  - RULE-SET,private_domain,大陆直连
+  - RULE-SET,category-httpdns-cn,大陆直连
+  - RULE-SET,category-ads-all,广告拦截
+  - RULE-SET,bilibili_domain,哔哩哔哩
+  - RULE-SET,xiaoheihe_domain,小黑盒
+  - RULE-SET,download,下载程序
+  - RULE-SET,game_download_cn,下载程序
+  - RULE-SET,18comic_domain,禁漫天堂
+  - RULE-SET,ehentai_domain,EhViewer
+  - RULE-SET,github_domain,GitHub
+  - RULE-SET,google_domain,Google
+  - RULE-SET,microsoft_domain,Microsoft
+  - RULE-SET,pixiv_domain,Pixiv
+  - RULE-SET,steam@cn_domain,大陆直连
+  - RULE-SET,steam_domain,Steam
+  - RULE-SET,telegram_domain,Telegram
+  - RULE-SET,twitter_domain,Twitter
+  - RULE-SET,youtube_domain,YouTube
+  - RULE-SET,geolocation-!cn,GFW
 
-  - RULE-SET,CN_Domain,大陆直连
-  - RULE-SET,CN_IP,大陆直连
+  - RULE-SET,bilibili_ip,哔哩哔哩
+  - RULE-SET,google_ip,Google
+  - RULE-SET,telegram_ip,Telegram
+  - RULE-SET,twitter_ip,Twitter
+  - RULE-SET,cn_domain,大陆直连
+  - RULE-SET,cn_ip,大陆直连
   - MATCH,漏网之鱼
 
 #分隔  以下的rule-providers与上方的rules配合使用
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: yaml}
 rule-providers:
-  Download:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
+  bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
+  18comic_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/18comic.mrs"}
+  ehentai_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ehentai.mrs"}
+  github_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"}
+  google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  pixiv_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pixiv.mrs"}
+  steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
+  steam@cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}
+  telegram_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
+  twitter_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}
+  xiaoheihe_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaoheihe.mrs"}
+  youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
+  category-ads-all: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}
+  category-httpdns-cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-httpdns-cn.mrs"}
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 
-  GameDownloadCN:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
+  download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
+  game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
 
-  Hijacking:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Hijacking/Hijacking_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Lan:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Lan/Lan_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Category-Ads-All:
-    type: http
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-ads-all.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: domain
-    format: yaml
-
-  SteamCN:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/SteamCN/SteamCN.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Steam:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Steam/Steam.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  ProxyLite:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/ProxyLite/ProxyLite_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Direct:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Direct/Direct.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  BiliBili:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/BiliBili/BiliBili_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  GitHub:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/GitHub/GitHub.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Google:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Google/Google_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  YouTube:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/YouTube/YouTube_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Pixiv:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Pixiv/Pixiv.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  Twitter:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Twitter/Twitter_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  EHGallery:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/EHGallery/EHGallery_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
-
-  CN_IP:
-    type: http
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/cn.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: ipcidr
-    format: yaml
-
-  CN_Domain:
-    type: http
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geosite/cn.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: domain
-    format: yaml
-
-  HeyBox:
-    type: http
-    url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/xiaoheihe.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: domain
-    format: yaml
-  
-  Telegram:
-    type: http
-    url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Telegram/Telegram_No_Resolve.yaml"
-    interval: 86400
-    proxy: ⚡ 延迟优选
-    behavior: classical
-    format: yaml
+  bilibili_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/bilibili.mrs"}
+  google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/google.mrs"}
+  telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/telegram.mrs"}
+  twitter_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/twitter.mrs"}
+  private_ip: {<<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/private.mrs"}
+  cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip-lite/cn.mrs"}
