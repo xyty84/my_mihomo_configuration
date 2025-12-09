@@ -178,7 +178,7 @@ proxy-groups:
 
   - name: GitHub
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
   - name: Pixiv
