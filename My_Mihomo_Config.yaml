@@ -329,6 +329,7 @@ rules:
   - RULE-SET,18comic_domain,禁漫天堂
   - RULE-SET,ehentai_domain,EhViewer
   - RULE-SET,github_domain,GitHub
+  - RULE-SET,youtube_domain,YouTube
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_domain,Microsoft
   - RULE-SET,pixiv_domain,Pixiv
@@ -336,7 +337,6 @@ rules:
   - RULE-SET,steam_domain,Steam
   - RULE-SET,telegram_domain,Telegram
   - RULE-SET,twitter_domain,Twitter
-  - RULE-SET,youtube_domain,YouTube
   - RULE-SET,geolocation-!cn,GFW
 
   - RULE-SET,bilibili_ip,哔哩哔哩,no-resolve
