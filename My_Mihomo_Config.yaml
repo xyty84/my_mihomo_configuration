@@ -3,7 +3,7 @@ proxy-providers:
   Airport:
 #把复制的第一个订阅地址粘贴到 url 里
     url: ""
-    输入: http
+    type: http
     interval: 86400
     health-check:
       enable: true
