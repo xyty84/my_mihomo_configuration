@@ -314,8 +314,6 @@ rules:
   - RULE-SET,category-ads-all,广告拦截
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,xiaoheihe_domain,小黑盒
-  - RULE-SET,download,下载程序
-  - RULE-SET,game_download_cn,下载程序
   - RULE-SET,steam@cn_domain,大陆直连
   - RULE-SET,steam_domain,Steam
   - RULE-SET,18comic_domain,禁漫天堂
@@ -327,14 +325,17 @@ rules:
   - RULE-SET,pixiv_domain,Pixiv
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_domain,Microsoft
-  - RULE-SET,geolocation-!cn,GFW
+  - RULE-SET,download,下载程序
+  - RULE-SET,game_download_cn,下载程序
 
   - RULE-SET,bilibili_ip,哔哩哔哩
   - RULE-SET,telegram_ip,Telegram
   - RULE-SET,twitter_ip,Twitter
   - RULE-SET,google_ip,Google
+
   - RULE-SET,cn_domain,大陆直连
   - RULE-SET,cn_ip,大陆直连
+  - RULE-SET,geolocation-!cn,GFW
   - MATCH,漏网之鱼
 
 #分隔  以下的rule-providers与上方的rules配合使用
