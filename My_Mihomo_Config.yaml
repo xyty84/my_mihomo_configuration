@@ -1,27 +1,9 @@
 #注: 添加#号代表注释词条,仅用于理解功能,部分#号是用来暂时屏蔽某些功能,可删(具体情况具体分析)
 proxy-providers:
-  Airport1:
+  Airport:
 #把复制的第一个订阅地址粘贴到 url 里
-    url: "https://liangxin.xyz/api/v1/liangxin?OwO=2401e9c9db052cee7c52983456d099a3"
-    type: http
-    interval: 86400
-    health-check:
-      enable: true
-      url: https://www.gstatic.com/generate_204
-      interval: 300
-    proxy: DIRECT
-    override:
-      udp: true
-      down: "50 Mbps"
-      up: "10 Mbps"
-      tfo: true
-      skip-cert-verify: true
-      additional-prefix: "[01]"
-
-  Airport2:
-#把复制的第二个订阅地址粘贴到 url 里,如果没有就空着
     url: ""
-    type: http
+    输入: http
     interval: 86400
     health-check:
       enable: true
@@ -34,7 +16,7 @@ proxy-providers:
       up: "10 Mbps"
       tfo: true
       skip-cert-verify: true
-      additional-prefix: "[02]"
+      additional-prefix: ""
 
 port: 7891
 socks-port: 7892
