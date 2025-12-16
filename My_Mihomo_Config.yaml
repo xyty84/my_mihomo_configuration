@@ -2,7 +2,7 @@
 proxy-providers:
   Airport1:
 #把复制的第一个订阅地址粘贴到 url 里
-    url: ""
+    url: "https://liangxin.xyz/api/v1/liangxin?OwO=2401e9c9db052cee7c52983456d099a3"
     type: http
     interval: 86400
     health-check:
@@ -107,7 +107,7 @@ dns:
   cache-algorithm: arc
 #分隔  连接遵守路由规则,不建议和"prefer-h3"一起使用
   respect-rules: true
-  ipv6: true
+  ipv6: false
   ipv6-timeout: 300
   listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
@@ -140,100 +140,102 @@ proxy-groups:
     proxies: [⚡ 延迟优选,🟢 全局直连,🔴 拒绝连接]
     include-all: true
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"
+    #exclude-filter: "重置|到期|剩余"
 
   - name: 延迟优选
     type: url-test
     include-all: true
     url: https://www.gstatic.com/generate_204
-    exclude-type: direct|reject
+    exclude-type: direct
     interval: 300
     tolerance: 20
     lazy: true
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"
+    #exclude-filter: "重置|到期|剩余"
 
   - name: 下载程序
     type: select
-    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"
 
   - name: 广告拦截
     type: select
-    proxies: [🔴 拒绝连接,❄️ 静默拒绝,🟢 全局直连]
+    proxies: [🔴 拒绝连接,💤 静默拒绝,🟢 全局直连,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"
 
   - name: 哔哩哔哩
     type: select
-    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Bili.png"
 
   - name: 小黑盒
     type: select
-    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"
 
   - name: Telegram
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Telegram.png"
 
   - name: GitHub
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
   - name: Pixiv
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Pixiv.png?raw=true"
 
   - name: Steam
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
 
   - name: EhViewer
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rainbow.png"
 
   - name: 禁漫天堂
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Flower.png"
 
   - name: Twitter
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Twitter.png"
 
   - name: Google
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"
 
   - name: Microsoft
     type: select
-    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Microsoft.png?raw=true"
 
   - name: YouTube
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/YouTube.png"
 
   - name: 大陆直连
     type: select
-    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接]
+    proxies: [🟢 全局直连,🚀 节点选择,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"
 
   - name: GFW
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"
 
   - name: 漏网之鱼
     type: select
-    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接]
+    proxies: [🚀 节点选择,🟢 全局直连,🔴 拒绝连接,🔘 绕过规则]
     icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"
 
 #分隔  以下是地区分组,默认为隐藏,想要把以下地区在APP内可视化,把"hidden: true"改为"hidden: false"就行了
@@ -298,9 +300,14 @@ proxy-groups:
     proxies: [REJECT]
     hidden: true
 
-  - name: ❄️ 静默拒绝
+  - name: 💤 静默拒绝
     type: select
     proxies: [REJECT-DROP]
+    hidden: true
+
+  - name: 🔘 绕过规则
+    type: select
+    proxies: [PASS]
     hidden: true
 
   - name: 🚀 节点选择
@@ -321,6 +328,7 @@ rules:
   - RULE-SET,private_ip,大陆直连
   - RULE-SET,private_domain,大陆直连
   - RULE-SET,category-httpdns-cn,大陆直连
+  - RULE-SET,AWAvenue_Ads_Rule,广告拦截
   - RULE-SET,category-ads-all,广告拦截
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,xiaoheihe_domain,小黑盒
@@ -374,6 +382,7 @@ rule-providers:
 
   download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
   game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
+  AWAvenue_Ads_Rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
 
   bilibili_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/bilibili.mrs"}
   google_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/google.mrs"}
