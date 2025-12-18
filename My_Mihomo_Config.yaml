@@ -159,7 +159,7 @@ rules:
   - RULE-SET,private_ip,大陆直连
   - RULE-SET,private_domain,大陆直连
   - RULE-SET,category-httpdns-cn,大陆直连
-  - RULE-SET,AWAvenue_Ads_Rule,广告拦截
+  - RULE-SET,awavenue_ads_rule,广告拦截
   - RULE-SET,category-ads-all,广告拦截
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,xiaoheihe_domain,小黑盒
@@ -202,7 +202,6 @@ rule-providers:
   twitter_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/x.mrs"}
   xiaoheihe_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaoheihe.mrs"}
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
-  AWAvenue_Ads_Rule: { <<: *domain, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash.mrs"}
   category-ads-all: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}
   category-httpdns-cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-httpdns-cn.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
@@ -218,3 +217,4 @@ rule-providers:
 
   download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
   game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
+  awavenue_ads_rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
