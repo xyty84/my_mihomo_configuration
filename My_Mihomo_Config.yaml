@@ -118,8 +118,8 @@ dns:
     - 119.29.29.29
 
 proxy-groups:
-- {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "重置|到期|剩余", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
-- {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "重置|到期|剩余", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
+- {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
+- {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
 - {name: 下载程序, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"}
 - {name: 广告拦截, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
 - {name: 哔哩哔哩, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Bili.png"}
