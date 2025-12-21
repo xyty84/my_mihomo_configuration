@@ -15,7 +15,7 @@ rule-anchor:
 proxy-providers:
 #把复制的订阅地址粘贴到下面的 url 里
   Airport:
-    url: "https://pwac.gzi8998-ddns0721.eu/api/v1/gzcloud/subscribe?token=44b33a83050203c6125952d9cb8bb44c"
+    url: ""
     <<: *p
 
 mixed-port: 7890
