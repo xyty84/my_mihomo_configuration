@@ -1,0 +1,167 @@
+####### 锚点 start #######
+#订阅更新和延迟测试相关
+p: &p {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, proxy: DIRECT, override: {udp: true, down: "50 Mbps", up: "10 Mbps", tfo: true, skip-cert-verify: true}}
+
+# 策略组相关
+pr: &pr {type: select, proxies: [🚀 节点选择, 🟢 全局直连, 🔴 拒绝连接, 💤 静默拒绝, 🔘 绕过规则, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动]}
+
+#规则集相关
+rule-anchor:
+  ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
+  domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  class: &class {type: http, interval: 86400, behavior: classical, format: yaml}
+####### 锚点 end #######
+
+proxy-providers:
+#把复制的订阅地址粘贴到下面的 url 里
+  Airport:
+    url: ""
+    <<: *p
+
+mixed-port: 7890
+port: 7891
+socks-port: 7892
+ipv6: true
+allow-lan: true
+bind-address: "*"
+mode: rule
+log-level: warning
+unified-delay: true
+keep-alive-interval: 15
+keep-alive-idle: 300
+disable-keep-alive: false
+tcp-concurrent: true
+
+external-controller: 127.0.0.1:9090
+external-controller-cors:
+  allow-origins:
+    - '*'
+  allow-private-network: true
+external-ui: ui
+external-ui-name: xd
+secret: ""
+external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+
+find-process-mode: strict
+global-client-fingerprint: chrome
+global-ua: clash.meta
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+tun:
+  enable: true
+  stack: mixed
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  device: mihomo
+  mtu: 4000
+  strict-route: true
+  auto-route: true
+  auto-redirect: true
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  cache-algorithm: arc
+#分隔  连接遵守路由规则,不建议和"prefer-h3"一起使用
+  respect-rules: true
+  ipv6: false
+  ipv6-timeout: 300
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter:
+    - rule-set:private_domain
+  nameserver-policy:
+    'rule-set:private_domain,cn_domain':
+      - 223.5.5.5
+      - 119.29.29.29
+    'rule-set:geolocation-!cn':
+      - tls://8.8.4.4#节点选择
+      - tls://1.1.1.1#节点选择
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  direct-nameserver:
+    - 223.5.5.5
+  default-nameserver-follow-policy: false
+  proxy-server-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+
+proxy-groups:
+- {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
+- {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
+- {name: 下载程序, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"}
+- {name: 广告拦截, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
+- {name: 小黑盒, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"}
+- {name: Steam, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"}
+- {name: Google, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"}
+- {name: Microsoft, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Microsoft.png?raw=true"}
+- {name: 大陆直连, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"}
+- {name: GFW, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"}
+- {name: 漏网之鱼, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final.png"}
+#分隔  以下是地区分组
+- {name: 香港自动,type: url-test, include-all: true, exclude-type: direct, filter: "(?i)(港|hk|hongkong|hong kong)", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png"}
+- {name: 台湾自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)台|tw|taiwan", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png"}
+- {name: 新加坡自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)(新|sg|singapore)", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"}
+- {name: 日本自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)日|jp|japan", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png"}
+- {name: 美国自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)美|us|unitedstates|united states", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"}
+#分隔  以下是隐藏策略组,不要乱动
+- {name: 🟢 全局直连, type: select, proxies: [DIRECT], hidden: true}
+- {name: 🔴 拒绝连接, type: select, proxies: [REJECT], hidden: true}
+- {name: 💤 静默拒绝, type: select, proxies: [REJECT-DROP], hidden: true}
+- {name: 🔘 绕过规则, type: select, proxies: [PASS], hidden: true}
+- {name: 🚀 节点选择, type: select, proxies: [节点选择], hidden: true}
+- {name: ⚡ 延迟优选, type: select, proxies: [延迟优选], hidden: true}
+
+#分隔
+#第一列为rule-set(引用规则集),需要配合后面的rule-providers
+#第二列为rule-providers的名称
+#第三列为之前策略组的名称
+rules:
+  - RULE-SET,private_ip,大陆直连
+  - RULE-SET,private_domain,大陆直连
+  - RULE-SET,category-httpdns-cn,大陆直连
+  - RULE-SET,awavenue_ads_rule,广告拦截
+  - RULE-SET,category-ads-all,广告拦截
+  - RULE-SET,download,下载程序
+  - RULE-SET,game_download_cn,下载程序
+  - RULE-SET,xiaoheihe_domain,小黑盒
+  - RULE-SET,steam@cn_domain,大陆直连
+  - RULE-SET,steam_domain,Steam
+  - RULE-SET,google_domain,Google
+  - RULE-SET,microsoft_domain,Microsoft
+
+  - RULE-SET,google_ip,Google
+  - RULE-SET,cn_domain,大陆直连
+  - RULE-SET,cn_ip,大陆直连
+  - RULE-SET,geolocation-!cn,GFW
+  - MATCH,漏网之鱼
+
+#分隔  以下的rule-providers与上方的rules配合使用
+rule-providers:
+  google_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
+  microsoft_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs"}
+  steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
+  steam@cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}
+  xiaoheihe_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/xiaoheihe.mrs"}
+  category-ads-all: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}
+  category-httpdns-cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-httpdns-cn.mrs"}
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+
+  google_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/google.mrs"}
+  private_ip: {<<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/private.mrs"}
+  cn_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/cn.mrs"}
+
+  download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
+  game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
+  awavenue_ads_rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
