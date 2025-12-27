@@ -12,11 +12,12 @@ rule-anchor:
   class: &class {type: http, interval: 86400, behavior: classical, format: yaml}
 ####### 锚点 end #######
 
+#把复制的机场订阅粘贴到下面的 url 里
 proxy-providers:
-#把复制的订阅地址粘贴到下面的 url 里
   Airport:
     url: ""
     <<: *p
+#如果只是用于覆写,则只需要把整个proxy-providers删除即可
 
 mixed-port: 7890
 port: 7891
@@ -25,22 +26,23 @@ ipv6: true
 allow-lan: true
 bind-address: "*"
 mode: rule
-log-level: warning
+log-level: error
 unified-delay: true
 keep-alive-interval: 15
 keep-alive-idle: 300
 disable-keep-alive: false
 tcp-concurrent: true
 
-external-controller: 127.0.0.1:9090
-external-controller-cors:
-  allow-origins:
-    - '*'
-  allow-private-network: true
-external-ui: ui
-external-ui-name: xd
-secret: ""
-external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
+#以防面板出现问题,所以把面板设置注释掉了
+#external-controller: 127.0.0.1:9090
+#external-controller-cors:
+  #allow-origins:
+    #- '*'
+  #allow-private-network: true
+#external-ui: ui
+#external-ui-name: xd
+#secret: ""
+#external-ui-url: "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
 
 find-process-mode: strict
 global-client-fingerprint: chrome
@@ -66,34 +68,56 @@ tun:
 dns:
   enable: true
   cache-algorithm: arc
-#分隔  连接遵守路由规则,不建议和"prefer-h3"一起使用
-  respect-rules: true
+  prefer-h3: false
+  respect-rules: false #连接遵守路由规则,需要配置proxy-server-nameserver才能开启,且不建议和"prefer-h3"同时使用
   ipv6: false
   ipv6-timeout: 300
   listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
   fake-ip-range: 28.0.0.1/8
   fake-ip-filter:
-    - rule-set:private_domain
+    - "rule-set:private_domain,cn_domain"
   nameserver-policy:
     'rule-set:private_domain,cn_domain':
       - 223.5.5.5
       - 119.29.29.29
+      - https://doh.pub/dns-query
+      - https://dns.alidns.com/dns-query
     'rule-set:geolocation-!cn':
       - tls://8.8.4.4#节点选择
-      - tls://1.1.1.1#节点选择
+      - tls://1.1.1.1#节点选择&h3=true
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-  direct-nameserver:
-    - 223.5.5.5
-  default-nameserver-follow-policy: false
-  proxy-server-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+    - 114.114.114.114
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.0.0.1
+    - 1.1.1.1
+    - tls://1.12.12.12:853
+    - tls://223.5.5.5:853
+    - system
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
+    - 114.114.114.114
+    - 8.8.8.8
+    - 8.8.4.4
+    - 1.0.0.1
+    - 1.1.1.1
+    - tls://223.5.5.5:853
+    - tls://8.8.8.8
+    - tls://8.8.4.4
+    - tls://1.0.0.1
+    - tls://1.1.1.1
+    - https://doh.pub/dns-query
+    - https://dns.alidns.com/dns-query#h3=true
+    - https://mozilla.cloudflare-dns.com/dns-query#DNS&h3=true
+    - quic://dns.adguard.com:784
+    - system
+  default-nameserver-follow-policy: false
+  direct-nameserver: []
+  proxy-server-nameserver: []
 
 proxy-groups:
 - {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
