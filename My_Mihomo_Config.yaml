@@ -15,7 +15,7 @@ rule-anchor:
 #把复制的机场订阅粘贴到下面的 url 里
 proxy-providers:
   Airport:
-    url: "https://pwac.gzi8998-ddns0721.eu/api/v1/gzcloud/subscribe?token=44b33a83050203c6125952d9cb8bb44c"
+    url: ""
     <<: *p
 #如果只是用于覆写,则只需把整个proxy-providers删除即可
 
