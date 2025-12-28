@@ -3,7 +3,7 @@
 p: &p {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, proxy: DIRECT, override: {udp: true, down: "50 Mbps", up: "10 Mbps", tfo: true, skip-cert-verify: true}}
 
 # 策略组相关
-pr: &pr {type: select, proxies: [🚀 节点选择, 🟢 全局直连, 🔴 拒绝连接, 💤 静默拒绝, 🔘 绕过规则, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动]}
+pr: &pr {type: select, proxies: [节点选择, DIRECT, REJECT, REJECT-DROP, PASS, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动]}
 
 #规则集相关
 rule-anchor:
@@ -145,12 +145,11 @@ dns:
   direct-nameserver: []
   proxy-server-nameserver: []
 
-
 proxy-groups:
-- {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
+- {name: 节点选择, type: select, proxies: [延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
 - {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
 - {name: 下载程序, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"}
-- {name: 广告拦截, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
+- {name: 拦截保护, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
 - {name: 哔哩哔哩, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Bili.png"}
 - {name: 小黑盒, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"}
 - {name: Telegram, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Telegram.png"}
@@ -172,26 +171,24 @@ proxy-groups:
 - {name: 新加坡自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)(新|sg|singapore)", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png"}
 - {name: 日本自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)日|jp|japan", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png"}
 - {name: 美国自动, type: url-test, include-all: true, exclude-type: direct, filter: "(?i)美|us|unitedstates|united states", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"}
-#分隔  以下是隐藏策略组,不要乱动
-- {name: 🟢 全局直连, type: select, proxies: [DIRECT], hidden: true}
-- {name: 🔴 拒绝连接, type: select, proxies: [REJECT], hidden: true}
-- {name: 💤 静默拒绝, type: select, proxies: [REJECT-DROP], hidden: true}
-- {name: 🔘 绕过规则, type: select, proxies: [PASS], hidden: true}
-- {name: 🚀 节点选择, type: select, proxies: [节点选择], hidden: true}
-- {name: ⚡ 延迟优选, type: select, proxies: [延迟优选], hidden: true}
+#分隔  以下是内置策略组,不要乱动
+- {name: 全局直连, type: select, proxies: [DIRECT], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Direct.png"}
+- {name: 拒绝连接, type: select, proxies: [REJECT], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png"}
+- {name: 静默拒绝, type: select, proxies: [REJECT-DROP], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final_1.png"}
+- {name: 绕过规则, type: select, proxies: [PASS], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Blackhole.png"}
 
 #分隔
 #第一列为rule-set(引用规则集),需要配合后面的rule-providers
 #第二列为rule-providers的名称
 #第三列为之前策略组的名称
 rules:
+  - RULE-SET,hijacking,拦截保护
+  - RULE-SET,privacy,拦截保护
+  - RULE-SET,awavenue_ads_rule,拦截保护
+  - RULE-SET,category-ads-all,拦截保护
   - RULE-SET,private_ip,大陆直连
   - RULE-SET,private_domain,大陆直连
   - RULE-SET,category-httpdns-cn,大陆直连
-  - RULE-SET,awavenue_ads_rule,广告拦截
-  - RULE-SET,category-ads-all,广告拦截
-  - RULE-SET,download,下载程序
-  - RULE-SET,game_download_cn,下载程序
   - RULE-SET,bilibili_domain,哔哩哔哩
   - RULE-SET,xiaoheihe_domain,小黑盒
   - RULE-SET,steam@cn_domain,大陆直连
@@ -205,6 +202,8 @@ rules:
   - RULE-SET,pixiv_domain,Pixiv
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_domain,Microsoft
+  - RULE-SET,download,下载程序
+  - RULE-SET,game_download_cn,下载程序
 
   - RULE-SET,bilibili_ip,哔哩哔哩
   - RULE-SET,telegram_ip,Telegram
@@ -247,3 +246,5 @@ rule-providers:
   download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
   game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
   awavenue_ads_rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
+  hijacking: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Hijacking/Hijacking_No_Resolve.yaml"}
+  privacy: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Privacy/Privacy_Classical_No_Resolve.yaml"}
