@@ -68,56 +68,61 @@ tun:
 dns:
   enable: true
   cache-algorithm: arc
-  prefer-h3: false
-  respect-rules: false #连接遵守路由规则,需要配置proxy-server-nameserver才能开启,且不建议和"prefer-h3"同时使用
+  prefer-h3: true
+  respect-rules: false #连接遵守路由规则,需要proxy-server-nameserver不为空才能生效,且不建议和"prefer-h3"同时使用
   ipv6: false
   ipv6-timeout: 300
+  use-hosts: true
+  use-system-hosts: true
   listen: 0.0.0.0:1053
   enhanced-mode: fake-ip
-  fake-ip-range: 28.0.0.1/8
+  fake-ip-range: 198.18.0.1/16
   fake-ip-filter:
     - "rule-set:private_domain,cn_domain"
   nameserver-policy:
-    'rule-set:private_domain,cn_domain':
-      - 223.5.5.5
-      - 119.29.29.29
+    "rule-set:private_domain,cn_domain":
       - https://doh.pub/dns-query
       - https://dns.alidns.com/dns-query
-    'rule-set:geolocation-!cn':
-      - tls://8.8.4.4#节点选择
-      - tls://1.1.1.1#节点选择&h3=true
+      - tls://dot.pub
+      - tls://alidns.com
+    "rule-set:geolocation-!cn":
+      - https://dns.google/dns-query
+      - https://cloudflare-dns.com/dns-query
+      - tls://8.8.8.8
+      - tls://8.8.4.4.
+      - tls://1.1.1.1
+      - tls://1.0.0.1
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - 114.114.114.114
     - 8.8.8.8
     - 8.8.4.4
-    - 1.0.0.1
     - 1.1.1.1
-    - tls://1.12.12.12:853
+    - 1.0.0.1
     - tls://223.5.5.5:853
+    - tls://1.12.12.12:853
     - system
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - 114.114.114.114
     - 8.8.8.8
     - 8.8.4.4
-    - 1.0.0.1
     - 1.1.1.1
+    - 1.0.0.1
     - tls://223.5.5.5:853
+    - tls://1.12.12.12:853
     - tls://8.8.8.8
     - tls://8.8.4.4
-    - tls://1.0.0.1
     - tls://1.1.1.1
+    - tls://1.0.0.1
     - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query#h3=true
-    - https://mozilla.cloudflare-dns.com/dns-query#DNS&h3=true
+    - https://dns.alidns.com/dns-query
     - quic://dns.adguard.com:784
     - system
   default-nameserver-follow-policy: false
   direct-nameserver: []
   proxy-server-nameserver: []
+
 
 proxy-groups:
 - {name: 节点选择, type: select, proxies: [⚡ 延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
