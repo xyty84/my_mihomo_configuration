@@ -128,8 +128,8 @@ proxy-groups:
 - {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
 - {name: 拦截保护, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
 - {name: 小黑盒, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"}
-- {name: Steam, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"}
 - {name: GitHub, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"}
+- {name: Steam, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"}
 - {name: Google, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google_Search.png"}
 - {name: Microsoft, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Microsoft.png?raw=true"}
 - {name: 大陆直连, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/China_Map.png"}
@@ -146,7 +146,7 @@ proxy-groups:
 - {name: 拒绝连接, type: select, proxies: [REJECT], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Reject.png"}
 - {name: 静默拒绝, type: select, proxies: [REJECT-DROP], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Final_1.png"}
 - {name: 绕过规则, type: select, proxies: [PASS], icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Blackhole.png"}
-- {name: GLOBAL, type: select, proxies: [节点选择, 延迟优选, 拦截保护, 小黑盒, Steam, GitHub, Google, Microsoft, 大陆直连, GFW, 漏网之鱼, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动, 全局直连, 拒绝连接, 静默拒绝, 绕过规则], include-all: true, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"}
+- {name: GLOBAL, type: select, proxies: [节点选择, 延迟优选, 拦截保护, 小黑盒, GitHub, Steam, Google, Microsoft, 大陆直连, GFW, 漏网之鱼, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动, 全局直连, 拒绝连接, 静默拒绝, 绕过规则], include-all: true, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"}
 
 #分隔
 #第一列为rule-set(引用规则集),需要配合后面的rule-providers
@@ -157,7 +157,6 @@ rules:
   - RULE-SET,private_domain,大陆直连
   - RULE-SET,category-httpdns-cn,大陆直连
   - RULE-SET,hijacking,拦截保护
-  - RULE-SET,privacy,拦截保护
   - RULE-SET,awavenue_ads_rule,拦截保护
   - RULE-SET,category-ads-all,拦截保护
   - RULE-SET,xiaoheihe_domain,小黑盒
@@ -193,4 +192,3 @@ rule-providers:
 
   awavenue_ads_rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
   hijacking: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Hijacking/Hijacking_No_Resolve.yaml"}
-  privacy: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Privacy/Privacy_Classical_No_Resolve.yaml"}
