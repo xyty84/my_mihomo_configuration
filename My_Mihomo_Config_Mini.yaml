@@ -59,7 +59,7 @@ tun:
     - any:53
     - tcp://any:53
   device: mihomo
-  mtu: 4000
+  mtu: 9000
   strict-route: true
   auto-route: true
   auto-redirect: true
