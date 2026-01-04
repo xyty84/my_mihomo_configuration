@@ -1,6 +1,6 @@
 ####### 锚点 start #######
 #订阅更新和延迟测试相关
-p: &p {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, proxy: DIRECT, override: {udp: true, down: "50 Mbps", up: "10 Mbps", tfo: true, skip-cert-verify: true}}
+p: &p {type: http, interval: 86400, health-check: {enable: true, url: "https://www.gstatic.com/generate_204", interval: 300}, proxy: DIRECT, override: {udp: true, xudp: true, down: "100 Mbps", up: "100 Mbps", tfo: true, skip-cert-verify: true}}
 
 # 策略组相关
 pr: &pr {type: select, proxies: [节点选择, DIRECT, REJECT, REJECT-DROP, PASS, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动]}
@@ -81,7 +81,7 @@ tun:
     - any:53
     - tcp://any:53
   device: mihomo
-  mtu: 4000
+  mtu: 9000
   strict-route: true
   auto-route: true
   auto-redirect: true
@@ -148,7 +148,6 @@ dns:
 proxy-groups:
 - {name: 节点选择, type: select, proxies: [延迟优选, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动], include-all: true, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Rocket.png"}
 - {name: 延迟优选, type: url-test, include-all: true, exclude-type: direct, tolerance: 25, exclude-filter: "官网|重置|到期|剩余|交流|失联|超时|重启|飞行|更新", icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Urltest.png"}
-- {name: 下载程序, <<: *pr, icon: "https://github.com/Vbaethon/HOMOMIX/blob/main/Icon/Color/Large/Download.png?raw=true"}
 - {name: 拦截保护, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hijacking.png"}
 - {name: 哔哩哔哩, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/Bili.png"}
 - {name: 小黑盒, <<: *pr, icon: "https://fastly.jsdelivr.net/gh/Orz-3/mini@master/Color/heybox.png"}
@@ -179,7 +178,7 @@ proxy-groups:
 #注: 某些客户端和面板的策略组是根据GLOBAL内的节点选项(proxies)来进行排序的,
 #由于我对GLOBAL进行了修改,所以在添加/删除其他策略组的同时,
 #还要对GLOBAL内的节点选项(proxies)也进行修改和排序,不然在运行时会出现乱序
-- {name: GLOBAL, type: select, proxies: [节点选择, 延迟优选, 下载程序, 拦截保护, 哔哩哔哩, 小黑盒, Telegram, GitHub, Pixiv, Steam, EhViewer, 禁漫天堂, Twitter, YouTube, Google, Microsoft, 大陆直连, GFW, 漏网之鱼, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动, 全局直连, 拒绝连接, 静默拒绝, 绕过规则], include-all: true, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"}
+- {name: GLOBAL, type: select, proxies: [节点选择, 延迟优选, 拦截保护, 哔哩哔哩, 小黑盒, Telegram, GitHub, Pixiv, Steam, EhViewer, 禁漫天堂, Twitter, YouTube, Google, Microsoft, 大陆直连, GFW, 漏网之鱼, 香港自动, 台湾自动, 新加坡自动, 日本自动, 美国自动, 全局直连, 拒绝连接, 静默拒绝, 绕过规则], include-all: true, icon: "https://fastly.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Global.png"}
 
 #分隔
 #第一列为rule-set(引用规则集),需要配合后面的rule-providers
@@ -205,8 +204,6 @@ rules:
   - RULE-SET,pixiv_domain,Pixiv
   - RULE-SET,google_domain,Google
   - RULE-SET,microsoft_domain,Microsoft
-  - RULE-SET,download,下载程序
-  - RULE-SET,game_download_cn,下载程序
 
   - RULE-SET,bilibili_ip,哔哩哔哩
   - RULE-SET,telegram_ip,Telegram
@@ -240,14 +237,12 @@ rule-providers:
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 #IP(ip类)
-  bilibili_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/bilibili.mrs"}
-  google_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/google.mrs"}
-  telegram_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/telegram.mrs"}
-  twitter_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/twitter.mrs"}
-  private_ip: {<<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/private.mrs"}
-  cn_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo-lite/geoip/cn.mrs"}
+  bilibili_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/bilibili.mrs"}
+  google_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/google.mrs"}
+  telegram_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/telegram.mrs"}
+  twitter_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/twitter.mrs"}
+  private_ip: {<<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/private.mrs"}
+  cn_ip: { <<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/cn.mrs"}
 #Class(可同时包含域名和ip)
-  download: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Download/Download.yaml"}
-  game_download_cn: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Game/GameDownloadCN/GameDownloadCN.yaml"}
   awavenue_ads_rule: { <<: *class, url: "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Clash-Classical.yaml"}
   hijacking: { <<: *class, url: "https://github.com/blackmatrix7/ios_rule_script/raw/refs/heads/master/rule/Clash/Hijacking/Hijacking_No_Resolve.yaml"}
