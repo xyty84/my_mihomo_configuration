@@ -186,7 +186,7 @@ proxy-groups:
 #第二列为rule-providers的名称
 #第三列为之前策略组的名称
 rules:
-  - RULE-SET,private_ip,大陆直连
+  - RULE-SET,private_ip,大陆直连,no-resolve
   - RULE-SET,private_domain,大陆直连
   - RULE-SET,category-httpdns-cn,大陆直连
   - RULE-SET,hijacking,拦截保护
